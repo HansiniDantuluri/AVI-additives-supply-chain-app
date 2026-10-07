@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Batch Details{% endblock %}
+
+{% block content %}
+    <h1>Batch Details</h1>
+    <p><strong>Name:</strong> {{ batch.batch_name }}</p>
+    <p><strong>Product Type:</strong> {{ batch.product_type or 'N/A' }}</p>
+    <p><strong>Production Date:</strong> {{ batch.production_date }}</p>
+
+    <h2>Material Usage</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Material</th>
+                <th>Quantity Used</th>
+                <th>Unit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in usage %}
+                <tr>
+                    <td>{{ entry.material_name }}</td>
+                    <td>{{ entry.quantity_used }}</td>
+                    <td>{{ entry.unit_of_measure }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">No materials have been linked to this batch yet.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Link a Material</h2>
+    <form method="post" action="/batches/{{ batch.id }}/link-material">
+        <label for="material_id">Material</label>
+        <select id="material_id" name="material_id" required>
+            <option value="">Select a material</option>
+            {% for material in active_materials %}
+                <option value="{{ material.id }}">{{ material.material_name }} ({{ material.current_quantity }} {{ material.unit_of_measure }} available)</option>
+            {% endfor %}
+        </select>
+
+        <label for="quantity_used">Quantity Used</label>
+        <input type="number" step="any" id="quantity_used" name="quantity_used" required>
+
+        <button type="submit">Link Material</button>
+    </form>
+
+    <p><a href="/batches">Back to batches</a></p>
+{% endblock %}

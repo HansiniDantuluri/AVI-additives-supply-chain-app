@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Batches{% endblock %}
+
+{% block content %}
+    <h1>Batches</h1>
+    <p><a href="/batches/add">Add New Batch</a></p>
+    <table>
+        <thead>
+            <tr>
+                <th>Batch Name</th>
+                <th>Product Type</th>
+                <th>Production Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for batch in batches %}
+                <tr>
+                    <td>{{ batch.batch_name }}</td>
+                    <td>{{ batch.product_type or 'N/A' }}</td>
+                    <td>{{ batch.production_date }}</td>
+                    <td><a href="/batches/{{ batch.id }}">View/Add Usage</a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No batches available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

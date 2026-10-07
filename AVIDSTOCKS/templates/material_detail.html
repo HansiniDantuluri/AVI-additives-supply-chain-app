@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}{{ material.material_name }} Details{% endblock %}
+
+{% block content %}
+    <h1>{{ material.material_name }}</h1>
+    <p>Category: {{ material.category }}</p>
+    <p>Unit: {{ material.unit_of_measure }}</p>
+    <p>Current Quantity: {{ material.current_quantity }}</p>
+    <p>Reorder Level: {{ material.reorder_level }}</p>
+    <p>Unit Cost: {{ material.unit_cost }}</p>
+    <p>Supplier: {{ material.supplier_name or 'Unknown' }}</p>
+    <p>Supplier Email: {{ material.supplier_email or 'N/A' }}</p>
+
+    <p><a href="/materials/edit/{{ material.id }}">Edit Material</a></p>
+
+    {% if role == 'admin' %}
+    <form method="post" action="/materials/deactivate/{{ material.id }}" style="display:inline;">
+        <button type="submit" onclick="return confirm('Are you sure you want to deactivate this material?')">
+            Deactivate Material
+        </button>
+    </form>
+    {% endif %}
+
+    <h2>Usage History</h2>
+    {% if usage_history %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Batch</th>
+                    <th>Production Date</th>
+                    <th>Quantity Used</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usage in usage_history %}
+                    <tr>
+                        <td>{{ usage.batch_name }}</td>
+                        <td>{{ usage.production_date }}</td>
+                        <td>{{ usage.quantity_used }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No usage history available.</p>
+    {% endif %}
+
+    <p><a href="/materials">Back to Materials</a></p>
+{% endblock %}

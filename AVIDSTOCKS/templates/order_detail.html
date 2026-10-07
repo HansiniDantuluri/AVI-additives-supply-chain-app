@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Order Details{% endblock %}
+
+{% block content %}
+    <h1>Order Details</h1>
+    <p><strong>Supplier:</strong> {{ order.supplier_name }}</p>
+    <p><strong>Order Date:</strong> {{ order.order_date }}</p>
+    <p><strong>Expected Delivery:</strong> {{ order.expected_delivery or 'TBD' }}</p>
+    <p><strong>Status:</strong> {{ order.status }}</p>
+
+    <h2>Order Items</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Material</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.material_name }}</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">No items found for this order.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Update Status</h2>
+    {% if order.status == 'Delivered' %}
+        <p>This order has been delivered and cannot be updated further.</p>
+    {% else %}
+        <form method="post" action="/orders/{{ order.id }}/update-status">
+            <label for="new_status">New Status</label>
+            <select id="new_status" name="new_status" required>
+                {% if order.status == 'Pending' %}
+                    <option value="Confirmed">Confirmed</option>
+                {% elif order.status == 'Confirmed' %}
+                    <option value="Delivered">Delivered</option>
+                {% endif %}
+            </select>
+            <button type="submit">Update Status</button>
+        </form>
+    {% endif %}
+
+    <p><a href="/orders">Back to orders</a></p>
+{% endblock %}

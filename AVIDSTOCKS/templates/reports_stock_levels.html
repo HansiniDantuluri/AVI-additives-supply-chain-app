@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Stock Level Report{% endblock %}
+
+{% block content %}
+    <h1>Reports</h1>
+    
+    <nav style="margin-bottom: 20px;">
+        <a href="/reports/stock-levels">Stock Levels</a> | 
+        <a href="/reports/consumption">Consumption</a> | 
+        <a href="/reports/usage-trends">Usage Trends</a>
+    </nav>
+
+    <h2>Stock Level Report</h2>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% else %}
+        <img src="/static/charts/stock_levels.png" alt="Stock levels chart">
+    {% endif %}
+    <p><a href="/dashboard">Back to dashboard</a></p>
+{% endblock %}

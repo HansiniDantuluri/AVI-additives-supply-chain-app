@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Purchase Orders{% endblock %}
+
+{% block content %}
+    <h1>Purchase Orders</h1>
+    <p><a href="/orders/create">Create New Order</a></p>
+    <table>
+        <thead>
+            <tr>
+                <th>Supplier</th>
+                <th>Order Date</th>
+                <th>Expected Delivery</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.supplier_name }}</td>
+                    <td>{{ order.order_date }}</td>
+                    <td>{{ order.expected_delivery or 'TBD' }}</td>
+                    <td>{{ order.status }}</td>
+                    <td><a href="/orders/{{ order.id }}">View</a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No purchase orders have been created yet.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

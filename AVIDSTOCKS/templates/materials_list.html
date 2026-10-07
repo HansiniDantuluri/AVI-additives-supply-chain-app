@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Materials{% endblock %}
+
+{% block content %}
+    <h1>Materials</h1>
+    <p><a href="/materials/add">Add New Material</a></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Unit</th>
+                <th>Current Quantity</th>
+                <th>Reorder Level</th>
+                <th>Supplier</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for material in materials %}
+                <tr class="{% if material.current_quantity <= material.reorder_level %}low-stock{% endif %}">
+                    <td>{{ material.material_name }}</td>
+                    <td>{{ material.category }}</td>
+                    <td>{{ material.unit_of_measure }}</td>
+                    <td>{{ material.current_quantity }}</td>
+                    <td>{{ material.reorder_level }}</td>
+                    <td>{{ material.supplier_name or 'Unknown' }}</td>
+                    <td><a href="/materials/{{ material.id }}">View</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

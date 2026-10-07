@@ -1,0 +1,27 @@
+Email failed: SMTPAuthenticationError: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c42f2e5644sm141245785ad.4 - gsmtp')
+Traceback (most recent call last):
+  File "C:\Users\hansi\OneDrive\Desktop\AVIDSTOCKS\routes\orders.py", line 223, in create_order
+    send_order_email(
+    ~~~~~~~~~~~~~~~~^
+        mail=current_app.extensions.get('mail'),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        items=email_items,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\hansi\OneDrive\Desktop\AVIDSTOCKS\routes\email_utils.py", line 52, in send_order_email
+    server.login(smtp_user, smtp_password)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\smtplib.py", line 762, in login
+    raise last_exception
+  File "C:\Program Files\Python314\Lib\smtplib.py", line 751, in login
+    (code, resp) = self.auth(
+                   ~~~~~~~~~^
+        authmethod, getattr(self, method_name),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        initial_response_ok=initial_response_ok)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python314\Lib\smtplib.py", line 669, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2c42f2e5644sm141245785ad.4 - gsmtp')

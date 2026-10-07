@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Create Purchase Order{% endblock %}
+
+{% block content %}
+    <h1>Create Purchase Order</h1>
+    <form method="post" action="/orders/create">
+        <label for="supplier_id">Supplier</label>
+        <select id="supplier_id" name="supplier_id" required>
+            <option value="">Select a supplier</option>
+            {% for supplier in suppliers %}
+                <option value="{{ supplier.id }}">{{ supplier.supplier_name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="expected_delivery">Expected Delivery</label>
+        <input type="date" id="expected_delivery" name="expected_delivery">
+
+        <h2>Materials</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Material</th>
+                    <th>Current Quantity</th>
+                    <th>Reorder Level</th>
+                    <th>Quantity to Order</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for material in materials %}
+                    <tr>
+                        <td>
+                            <input type="hidden" name="all_material_ids" value="{{ material.id }}">
+                            <input type="checkbox" name="material_ids" value="{{ material.id }}" id="material_{{ material.id }}" {% if material.current_quantity <= material.reorder_level %}checked{% endif %}>
+                        </td>
+                        <td><label for="material_{{ material.id }}">{{ material.material_name }}</label></td>
+                        <td>{{ material.current_quantity }}</td>
+                        <td>{{ material.reorder_level }}</td>
+                        <td><input type="number" step="any" name="quantities" value="1" min="0.01"></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">No active materials available.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit">Create Order</button>
+    </form>
+
+    <p><a href="/orders">Back to orders</a></p>
+{% endblock %}

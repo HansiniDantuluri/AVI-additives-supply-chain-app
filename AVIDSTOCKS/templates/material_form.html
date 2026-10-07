@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <form method="post" action="{{ form_action }}">
+        <div>
+            <label for="material_name">Material Name</label>
+            <input type="text" id="material_name" name="material_name" value="{{ material.material_name or '' }}" required>
+        </div>
+        <div>
+            <label for="category">Category</label>
+            <input type="text" id="category" name="category" value="{{ material.category or '' }}">
+        </div>
+        <div>
+            <label for="unit_of_measure">Unit of Measure</label>
+            <input type="text" id="unit_of_measure" name="unit_of_measure" value="{{ material.unit_of_measure or '' }}" required>
+        </div>
+        <div>
+            <label for="current_quantity">Current Quantity</label>
+            <input type="number" step="0.01" id="current_quantity" name="current_quantity" value="{{ material.current_quantity or '' }}" required>
+        </div>
+        <div>
+            <label for="reorder_level">Reorder Level</label>
+            <input type="number" step="0.01" id="reorder_level" name="reorder_level" value="{{ material.reorder_level or '' }}" required>
+        </div>
+        <div>
+            <label for="unit_cost">Unit Cost</label>
+            <input type="number" step="0.01" id="unit_cost" name="unit_cost" value="{{ material.unit_cost or '' }}">
+        </div>
+        <div>
+            <label for="supplier_id">Supplier</label>
+            <select id="supplier_id" name="supplier_id">
+                <option value="">-- Select Supplier --</option>
+                {% for supplier in suppliers %}
+                    <option value="{{ supplier.id }}" {% if supplier.id|string == material.supplier_id|string %}selected{% endif %}>{{ supplier.supplier_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <button type="submit">Save</button>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+
+    <section>
+        <h2>Low Stock Alerts</h2>
+        {% if low_stock_materials %}
+            {% for material in low_stock_materials %}
+                <div class="low-stock-row">
+                    <strong>{{ material.material_name }}</strong><br>
+                    Current Quantity: {{ material.current_quantity }}<br>
+                    Reorder Level: {{ material.reorder_level }}<br>
+                    Supplier: {{ material.supplier_name }} ({{ material.supplier_email }})
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No low stock materials at this time.</p>
+        {% endif %}
+    </section>
+
+    <section>
+        <h2>Active Alerts</h2>
+        {% if unacknowledged_alerts %}
+            <ul>
+                {% for alert in unacknowledged_alerts %}
+                    <li>
+                        <strong>{{ alert.material_name }}</strong>: {{ alert.message }}
+                        <form method="post" action="/alerts/acknowledge/{{ alert.alert_id }}" style="display:inline;">
+                            <button type="submit">Acknowledge</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No active alerts.</p>
+        {% endif %}
+    </section>
+
+    <p><a href="/materials" class="btn">View All Materials</a></p>
+{% endblock %}

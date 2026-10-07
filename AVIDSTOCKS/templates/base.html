@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}AVIDSTOCKS{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="/dashboard">Dashboard</a></li>
+                <li class="nav-item"><a href="/materials">Materials</a></li>
+                <li class="nav-item"><a href="/batches">Batches</a></li>
+                <li class="nav-item"><a href="/orders">Orders</a></li>
+                {% if session.get('role') == 'admin' %}
+                    <li class="nav-item"><a href="/reports/stock-levels">Reports</a></li>
+                    <li class="nav-item"><a href="/register">Register User</a></li>
+                {% endif %}
+                <li class="nav-item nav-right"><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flashes">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 AVIDSTOCKS</p>
+    </footer>
+</body>
+</html>
